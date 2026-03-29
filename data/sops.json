@@ -1,0 +1,86 @@
+[
+  {
+    "id": "5b516ddb",
+    "name": "Automated Merchant Context File Refresh",
+    "built_by": "Chris Caggiano",
+    "summary": "Automates weekly merchant context file updates by scheduling Claude Code to search Glean and Slack for new information and append findings to local context.md files \u2014 replacing a manual research-and-update process.",
+    "date_added": "2026-03-28T19:50:00.856776",
+    "scores": {
+      "clarity": 9,
+      "completeness": 9,
+      "reproducibility": 8,
+      "automation_potential": 9,
+      "documentation_quality": 9
+    },
+    "overall_grade": 8.8,
+    "time_before_minutes": 45,
+    "time_after_minutes": 5,
+    "frequency_per_week": 1,
+    "team_size": 40,
+    "weekly_savings_per_person_hrs": 0.7,
+    "weekly_team_savings_hrs": 26.7,
+    "annual_team_savings_hrs": 1333.0,
+    "improvements": [
+      "Add a validation step that checks context.md files for formatting consistency after each refresh",
+      "Include a rollback procedure in case Claude introduces incorrect information",
+      "Add a summary notification (Slack or email) after each run with a diff of what changed"
+    ],
+    "sop_text": "Automated weekly refresh of merchant context files using Claude Code CLI..."
+  },
+  {
+    "id": "4aa567dc",
+    "name": "Mission Control Weekly Reporting",
+    "built_by": "Calvin Neumeyer",
+    "summary": "Generates weekly merchant performance reports by pulling data from multiple dashboards, synthesizing into narrative format, and distributing to stakeholders \u2014 currently a highly manual copy/paste/write workflow.",
+    "date_added": "2026-03-28T19:50:00.857232",
+    "scores": {
+      "clarity": 7,
+      "completeness": 6,
+      "reproducibility": 6,
+      "automation_potential": 8,
+      "documentation_quality": 6
+    },
+    "overall_grade": 6.6,
+    "time_before_minutes": 150,
+    "time_after_minutes": 20,
+    "frequency_per_week": 1,
+    "team_size": 40,
+    "weekly_savings_per_person_hrs": 2.2,
+    "weekly_team_savings_hrs": 86.7,
+    "annual_team_savings_hrs": 4333.0,
+    "improvements": [
+      "Document the exact data sources and dashboard URLs for each metric to improve reproducibility",
+      "Add a standard output template so all EPMs produce consistent reports",
+      "Include screenshots or screen recordings of the current manual workflow for training purposes"
+    ],
+    "sop_text": "Weekly merchant performance reporting via Mission Control dashboard..."
+  },
+  {
+    "id": "f9b20988",
+    "name": "Meeting Prep Brief Generator",
+    "built_by": "Tucker Moody",
+    "summary": "Uses Cursor + MCPs to pull calendar context, recent Slack threads, and Glean docs to auto-generate a 1-page meeting prep brief for upcoming merchant meetings.",
+    "date_added": "2026-03-28T19:50:00.857646",
+    "scores": {
+      "clarity": 8,
+      "completeness": 7,
+      "reproducibility": 8,
+      "automation_potential": 9,
+      "documentation_quality": 7
+    },
+    "overall_grade": 7.8,
+    "time_before_minutes": 30,
+    "time_after_minutes": 5,
+    "frequency_per_week": 4,
+    "team_size": 40,
+    "weekly_savings_per_person_hrs": 1.7,
+    "weekly_team_savings_hrs": 66.7,
+    "annual_team_savings_hrs": 3333.0,
+    "improvements": [
+      "Add merchant-specific prompt templates for different meeting types (QBR, escalation, onboarding)",
+      "Include a section on how to handle meetings with no prior Slack/Glean context",
+      "Document expected output format with a real before/after example"
+    ],
+    "sop_text": "Automated meeting prep using Cursor with Calendar, Slack, and Glean MCPs..."
+  }
+]
