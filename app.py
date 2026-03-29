@@ -11,10 +11,22 @@ from store import load_sops, add_sop, delete_sop, get_portfolio_metrics
 from grader import grade_sop, grade_sop_manual
 from usage_scanner import scan_claude_code_logs, compute_actuals
 from team import ROSTER, TEAM_NAMES, LOCATIONS, load_usage_logs, log_usage, delete_usage_log, get_team_metrics
-from sheet_reader import fetch_all_remote_usage
+from sheet_reader import fetch_all_remote_usage, fetch_sop_submissions, SOP_FORM_URL
 
 GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScd6SMZOD-UPYY3qHtv-5KJOSooPQsstpJnuxMacv6DAxymqA/viewform"
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1m-o1j571k60W5lJeUtGhhhZqdtHOCrdQN1csVeRlCK0/edit"
+
+
+def load_all_sops() -> list[dict]:
+    """Merge local SOPs with form-submitted SOPs, deduplicating by name."""
+    local = load_sops()
+    remote = fetch_sop_submissions()
+    local_names = {s["name"].lower() for s in local}
+    for r in remote:
+        if r["name"].lower() not in local_names:
+            local.append(r)
+            local_names.add(r["name"].lower())
+    return local
 
 
 def clean_pasted_text(raw: str) -> str:
@@ -319,7 +331,7 @@ with st.sidebar:
     page = st.radio("Navigate", ["Dashboard", "Estimates vs. Actuals", "Log Team Usage", "Grade an SOP", "SOP Portfolio"], label_visibility="collapsed")
 
     st.divider()
-    sops = load_sops()
+    sops = load_all_sops()
     metrics = get_portfolio_metrics(sops)
     usage_logs_sidebar = load_usage_logs()
     remote_logs_sidebar = fetch_all_remote_usage()
@@ -343,7 +355,7 @@ if page == "Dashboard":
         unsafe_allow_html=True,
     )
 
-    sops = load_sops()
+    sops = load_all_sops()
     metrics = get_portfolio_metrics(sops)
 
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -390,7 +402,7 @@ elif page == "Estimates vs. Actuals":
         unsafe_allow_html=True,
     )
 
-    sops = load_sops()
+    sops = load_all_sops()
     metrics = get_portfolio_metrics(sops)
 
     log_dir = st.text_input("Claude Code log directory", value=os.path.expanduser("~/logs"), help="Path to the folder with merchant-refresh-*.log files")
@@ -637,7 +649,7 @@ elif page == "Log Team Usage":
         unsafe_allow_html=True,
     )
 
-    sops = load_sops()
+    sops = load_all_sops()
     sop_lookup = {s["name"]: s for s in sops}
 
     existing_logs = load_usage_logs()
@@ -737,6 +749,17 @@ elif page == "Grade an SOP":
     st.markdown("# Grade an SOP")
     st.markdown(f"<p style='color:{TEXT_MUTED}'>Paste your SOP text below, then grade it with Claude or manually.</p>", unsafe_allow_html=True)
 
+    st.markdown(
+        f"<div style='background:{CARD_BG};border:1px solid {CARD_BORDER};"
+        f"border-radius:12px;padding:16px 20px;margin-bottom:20px'>"
+        f"<b style='color:{TEXT_WHITE}'>Want to skip this form?</b> "
+        f"Anyone on the team can self-submit an SOP via "
+        f"<a href='{SOP_FORM_URL}' style='color:{DOORDASH_RED}'>this Google Form</a> — "
+        f"it auto-populates the leaderboard. No setup required."
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
     name_cols = st.columns(2)
     sop_name = name_cols[0].text_input("SOP Name", placeholder="e.g., Automated Merchant Context File Refresh")
     built_by = name_cols[1].selectbox("Built by", [""] + TEAM_NAMES, format_func=lambda x: x if x else "Select who built this...")
@@ -828,7 +851,7 @@ elif page == "SOP Portfolio":
     st.markdown("# SOP Portfolio")
     st.markdown(f"<p style='color:{TEXT_MUTED}'>All graded SOPs with detailed breakdowns</p>", unsafe_allow_html=True)
 
-    sops = load_sops()
+    sops = load_all_sops()
 
     if not sops:
         st.info("No SOPs graded yet. Go to **Grade an SOP** to add your first.")
