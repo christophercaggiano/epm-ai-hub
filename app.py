@@ -116,6 +116,12 @@ st.markdown("""
         border-radius: 12px;
         border-left: 4px solid #FF3008;
     }
+    div[data-testid="stExpander"] summary {
+        padding-left: 12px;
+    }
+    div[data-testid="stExpander"] summary span[data-testid="stMarkdownContainer"] p {
+        padding-left: 8px;
+    }
 
     /* Buttons */
     .stButton > button[kind="primary"] {
@@ -219,14 +225,20 @@ def render_value_waterfall(sops: list[dict]):
             colorscale=[[0, TIDE_POOL], [0.5, FLUSH], [1, DOORDASH_RED]],
         ),
         text=[f"{v:,.0f} hrs" for v in values],
-        textposition="outside",
-        textfont=dict(color=TEXT_WHITE, size=12),
+        textposition="inside",
+        textfont=dict(color=TEXT_WHITE, size=13, family="Inter"),
+        insidetextanchor="end",
     ))
+    max_val = max(values) if values else 1
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(title=dict(text="Annual Hours Recovered", font=dict(color=TEXT_MUTED)), tickfont=dict(color=TEXT_MUTED), gridcolor="#2E2E2E"),
+        xaxis=dict(
+            title=dict(text="Annual Hours Recovered", font=dict(color=TEXT_MUTED)),
+            tickfont=dict(color=TEXT_MUTED), gridcolor="#2E2E2E",
+            range=[0, max_val * 1.05],
+        ),
         yaxis=dict(tickfont=dict(color=TEXT_WHITE, size=12), autorange="reversed"),
-        margin=dict(l=10, r=80, t=20, b=40),
+        margin=dict(l=10, r=20, t=20, b=40),
         height=max(250, len(labels) * 50 + 80),
     )
     return fig
