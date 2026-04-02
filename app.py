@@ -38,7 +38,7 @@ def clean_pasted_text(raw: str) -> str:
     return text.strip()
 
 st.set_page_config(
-    page_title="EPM AI Leaderboard",
+    page_title="EPM AI Hub",
     page_icon="🏆",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -325,7 +325,7 @@ with st.sidebar:
     st.markdown(
         f"<div style='margin-top:4px'>"
         f"<span style='color:{TEXT_WHITE};font-size:1.4rem;font-weight:800;letter-spacing:-0.02em'>EPM AI </span>"
-        f"<span style='color:{DOORDASH_RED};font-size:1.4rem;font-weight:800;letter-spacing:-0.02em'>Leaderboard</span>"
+        f"<span style='color:{DOORDASH_RED};font-size:1.4rem;font-weight:800;letter-spacing:-0.02em'>Hub</span>"
         f"</div>"
         f"<p style='color:{TEXT_MUTED};font-size:0.8rem;margin-top:4px'>Grade SOPs. Size the value. Lead the charge.</p>",
         unsafe_allow_html=True,
@@ -636,7 +636,7 @@ elif page == "Submit an SOP":
     st.markdown("# Submit an SOP")
     st.markdown(
         f"<p style='color:{TEXT_MUTED};font-size:1.1rem'>"
-        "Add your automation to the leaderboard. Two ways to submit:"
+        "Add your automation to the hub. Two ways to submit:"
         "</p>",
         unsafe_allow_html=True,
     )
@@ -645,7 +645,7 @@ elif page == "Submit an SOP":
         f"<div style='background:{CARD_BG};border:1px solid {CARD_BORDER};border-left:4px solid {DOORDASH_RED};"
         f"border-radius:12px;padding:20px 24px;margin-bottom:24px'>"
         f"<div style='font-size:1.2rem;font-weight:700;color:{TEXT_WHITE};margin-bottom:8px'>Option 1: Google Form (recommended)</div>"
-        f"<p style='color:{TEXT_MUTED};margin-bottom:12px'>Takes 2 minutes. Anyone on the team can submit. Auto-populates the leaderboard.</p>"
+        f"<p style='color:{TEXT_MUTED};margin-bottom:12px'>Takes 2 minutes. Anyone on the team can submit. Auto-populates the hub.</p>"
         f"<a href='{SOP_FORM_URL}' style='color:{DOORDASH_RED};font-weight:700;font-size:1.1rem'>Open the SOP Submission Form →</a>"
         f"</div>",
         unsafe_allow_html=True,
