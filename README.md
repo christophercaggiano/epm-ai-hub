@@ -1,4 +1,4 @@
-# SOP Value Tracker
+# EPM AI Hub
 
 Grade your team's SOPs, calculate time savings, and track cumulative automation ROI.
 
